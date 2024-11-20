@@ -117,6 +117,15 @@ body {
 .navigation ul li:nth-child(2).active ~ .indicator{
     transform: translateX(calc(70px * 1));
 }
+.navigation ul li:nth-child(3).active ~ .indicator{
+    transform: translateX(calc(70px * 2));
+}
+.navigation ul li:nth-child(4).active ~ .indicator{
+    transform: translateX(calc(70px * 3));
+}
+.navigation ul li:nth-child(5).active ~ .indicator{
+    transform: translateX(calc(70px * 4));
+}
 
 /* @media (max-width: 480px) {
     .nav-container {
