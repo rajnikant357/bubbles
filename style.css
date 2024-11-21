@@ -142,7 +142,7 @@ body {
     transform: translateY(calc(70px * 4));
 }
 
-@media (max-width: 580px) {
+@media (max-width: 480px) {
     .navigation {
         width: 100%;
         max-width: 480px;
