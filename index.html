@@ -5,8 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Responsive Message Navigation Bar</title>
     <link rel="stylesheet" href="style.css" />
+    
+    <!-- Import Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
   </head>
   <body>
+    <!-- navigation bar -->
+
     <div class="navigation">
       <ul>
         <li class="list active">
@@ -27,7 +33,7 @@
           </a>
         </li>
         <li class="list">
-          <a href="#" class="nav-item" aria-label="Profile">
+          <a href="#" class="nav-item" aria-label="Friends">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="icon"
@@ -69,7 +75,7 @@
           </a>
         </li>
         <li class="list">
-          <a href="#" class="nav-item" aria-label="Profile">
+          <a href="#" class="nav-item" aria-label="Post">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="icon"
@@ -95,7 +101,7 @@
           </a>
         </li>
         <li class="list">
-          <a href="#" class="nav-item" aria-label="Camera">
+          <a href="#" class="nav-item" aria-label="Chat">
             <svg
             class="icon"
               xmlns="http://www.w3.org/2000/svg"
@@ -112,7 +118,7 @@
           </a>
         </li>
         <li class="list">
-          <a href="#" class="nav-item" aria-label="Settings">
+          <a href="#" class="nav-item" aria-label="Profile">
             <svg
               class="icon"
               viewBox="0 0 24 24"
@@ -134,13 +140,209 @@
         </div>
       </ul>
     </div>
-    <script>
-      const list = document.querySelectorAll(".list");
-      function activelink() {
-        list.forEach((item) => item.classList.remove("active"));
-        this.classList.add("active");
-      }
-      list.forEach((item) => item.addEventListener("click", activelink));
-    </script>
+
+    <!-- post -->
+
+    <div class="card">
+      <div class="card-header">
+          <img src="profile_photo1.jpeg" alt="User's avatar" class="avatar">
+          <div class="user-info">
+              <h3 class="user-name">John Doe</h3>
+              <p class="post-time">2 hours ago · 🌍</p>
+          </div>
+          <button class="more-options">
+              ⋯
+              <span class="sr-only">More options</span>
+          </button>
+      </div>
+      <div class="card-content">
+          <p class="post-text">
+              Just had an amazing day at the beach! The sunset was absolutely breathtaking. 🌅🏖️ 
+              #BeachDay #SummerVibes
+          </p>
+          <img 
+              src="profile_photo1.jpeg" 
+              alt="Beach sunset" 
+              class="post-image"
+          >
+      </div>
+      <div class="card-footer">
+          <div class="post-stats">
+              <span>42 Likes</span>
+              <span>12 Comments · 3 Shares</span>
+          </div>
+          <div class="interaction-buttons">
+              <button class="interaction-button">
+                  👍 Like
+              </button>
+              <button class="interaction-button">
+                  💬 Comments
+              </button>
+              <button class="interaction-button">
+                  ↗️ Share
+              </button>
+          </div>
+          <div class="comment-section">
+              <img src="profile_photo1.jpeg" alt="Your avatar" class="avatar">
+              <input 
+                  type="text"
+                  placeholder="Write a comment..." 
+                  class="comment-input"
+              >
+              <button class="post-comment-btn">Post</button>
+          </div>
+      </div>
+  </div>
+    <div class="card">
+      <div class="card-header">
+          <img src="profile_photo1.jpeg" alt="User's avatar" class="avatar">
+          <div class="user-info">
+              <h3 class="user-name">John Doe</h3>
+              <p class="post-time">2 hours ago · 🌍</p>
+          </div>
+          <button class="more-options">
+              ⋯
+              <span class="sr-only">More options</span>
+          </button>
+      </div>
+      <div class="card-content">
+          <p class="post-text">
+              Just had an amazing day at the beach! The sunset was absolutely breathtaking. 🌅🏖️ 
+              #BeachDay #SummerVibes
+          </p>
+          <img 
+              src="profile_photo1.jpeg" 
+              alt="Beach sunset" 
+              class="post-image"
+          >
+      </div>
+      <div class="card-footer">
+          <div class="post-stats">
+              <span>42 Likes</span>
+              <span>12 Comments · 3 Shares</span>
+          </div>
+          <div class="interaction-buttons">
+              <button class="interaction-button">
+                  👍 Like
+              </button>
+              <button class="interaction-button">
+                  💬 Comments
+              </button>
+              <button class="interaction-button">
+                  ↗️ Share
+              </button>
+          </div>
+          <div class="comment-section">
+              <img src="profile_photo1.jpeg" alt="Your avatar" class="avatar">
+              <input 
+                  type="text"
+                  placeholder="Write a comment..." 
+                  class="comment-input"
+              >
+              <button class="post-comment-btn">Post</button>
+          </div>
+      </div>
+  </div>
+    <div class="card">
+      <div class="card-header">
+          <img src="profile_photo1.jpeg" alt="User's avatar" class="avatar">
+          <div class="user-info">
+              <h3 class="user-name">John Doe</h3>
+              <p class="post-time">2 hours ago · 🌍</p>
+          </div>
+          <button class="more-options">
+              ⋯
+              <span class="sr-only">More options</span>
+          </button>
+      </div>
+      <div class="card-content">
+          <p class="post-text">
+              Just had an amazing day at the beach! The sunset was absolutely breathtaking. 🌅🏖️ 
+              #BeachDay #SummerVibes
+          </p>
+          <img 
+              src="profile_photo1.jpeg" 
+              alt="Beach sunset" 
+              class="post-image"
+          >
+      </div>
+      <div class="card-footer">
+          <div class="post-stats">
+              <span>42 Likes</span>
+              <span>12 Comments · 3 Shares</span>
+          </div>
+          <div class="interaction-buttons">
+              <button class="interaction-button">
+                  👍 Like
+              </button>
+              <button class="interaction-button">
+                  💬 Comments
+              </button>
+              <button class="interaction-button">
+                  ↗️ Share
+              </button>
+          </div>
+          <div class="comment-section">
+              <img src="profile_photo1.jpeg" alt="Your avatar" class="avatar">
+              <input 
+                  type="text"
+                  placeholder="Write a comment..." 
+                  class="comment-input"
+              >
+              <button class="post-comment-btn">Post</button>
+          </div>
+      </div>
+  </div>
+    <div class="card">
+      <div class="card-header">
+          <img src="profile_photo1.jpeg" alt="User's avatar" class="avatar">
+          <div class="user-info">
+              <h3 class="user-name">John Doe</h3>
+              <p class="post-time">2 hours ago · 🌍</p>
+          </div>
+          <button class="more-options">
+              ⋯
+              <span class="sr-only">More options</span>
+          </button>
+      </div>
+      <div class="card-content">
+          <p class="post-text">
+              Just had an amazing day at the beach! The sunset was absolutely breathtaking. 🌅🏖️ 
+              #BeachDay #SummerVibes
+          </p>
+          <img 
+              src="profile_photo1.jpeg" 
+              alt="Beach sunset" 
+              class="post-image"
+          >
+      </div>
+      <div class="card-footer">
+          <div class="post-stats">
+              <span>42 Likes</span>
+              <span>12 Comments · 3 Shares</span>
+          </div>
+          <div class="interaction-buttons">
+              <button class="interaction-button">
+                  👍 Like
+              </button>
+              <button class="interaction-button">
+                  💬 Comments
+              </button>
+              <button class="interaction-button">
+                  ↗️ Share
+              </button>
+          </div>
+          <div class="comment-section">
+              <img src="profile_photo1.jpeg" alt="Your avatar" class="avatar">
+              <input 
+                  type="text"
+                  placeholder="Write a comment..." 
+                  class="comment-input"
+              >
+              <button class="post-comment-btn">Post</button>
+          </div>
+      </div>
+  </div>
+    <script src="script.js"></script>
   </body>
 </html>
