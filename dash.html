@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+    --primary-color: #4a90e2;
+    --secondary-color: #f5f5f5;
+    --text-color: #333;
+    --sidebar-width: 150px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+}
+
+.dashboard {
+    display: flex;
+    height: 100vh;
+}
+#profile-overview{
+  background-color: rgb(203, 199, 216);
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    background-color:transparent;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+}
+
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px;
+}
+
+.search-bar button {
+    padding: 10px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 0 5px 5px 0;
+    cursor: pointer;
+}
+
+.user-menu {
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.dashboard-content {
+    display: grid;
+    gap: 30px;
+}
+
+.profile-overview {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header {
+    position: relative;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-banner {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid #fff;
+    position: absolute;
+    bottom: 0px;
+    left: 10%;
+    transform: translateX(-50%);
+}
+
+.image-upload {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.image-upload:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.stat {
+    text-align: center;
+    margin: 0 20px;
+}
+
+.stat-value {
+    font-size: 24px;
+    font-weight: bold;
+    display: block;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #777;
+}
+
+.quick-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #3a7bc8;
+}
+
+.collapsible h2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.toggle-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.toggle-btn[aria-expanded="true"] {
+    transform: rotate(180deg);
+}
+
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.collapsible-content.expanded {
+    max-height: 10000px;
+}
+
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+.post {
+    background-color: rgb(203, 199, 216);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.post img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.post-info {
+    padding: 15px;
+}
+
+.post-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    color: #777;
+}
+
+
+
+@media (max-width: 768px) {
+    .dashboard {
+        flex-direction: column;
+    }
+    .content {
+        padding: 10px;
+    }
+
+    .profile-banner {
+        height: 150px;
+    }
+
+    .profile-picture {
+        width: 100px;
+        height: 100px;
+        bottom: 0px;
+    }
+
+    .post-grid {
+      display: flex;
+      flex-direction: row;
+        grid-template-rows: 2fr;
+    }
+    
+}
+.interaction-buttons {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid #e4e6eb;
+    border-bottom: 1px solid #e4e6eb;
+    padding: 4px 0;
+}
+
+.interaction-button {
+    background: none;
+    border: none;
+    color: #65676b;
+    cursor: pointer;
+    font-size: 0.9em;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    justify-content: center;
+}
+
+.interaction-button:hover {
+    transition: 0.3s;
+    transform: scale(1.1);
+    border-radius: 50px;
+}
+
+.comment-section {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.comment-input {
+    flex-grow: 1;
+    border: none;
+    background-color: #f0f2f5;
+    border-radius: 20px;
+    padding: 8px 12px;
+    margin: 0 8px;
+}
+
+.post-comment-btn {
+    background-color: rgb(98, 87, 138);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.post-comment-btn:hover {
+    background-color: rgb(66, 56, 104);
+}
+
+/* navbar section */
+
+:root {
+    --clr: background;
+}
+
+body {
+    margin: 0;
+    padding: 0px;
+    min-height: 100vh;
+    background-color: var(--clr);
+    z-index: 1000;
+}
+
+.navigation {
+    position: fixed;
+    top: 1%;
+    bottom: auto;
+    left: 1%;
+    width: 100px;
+    height: 450px;
+    background-color: rgb(98, 87, 138);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    z-index: 999;
+}
+
+.navigation ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.navigation ul li {
+    position: relative;
+    list-style: none;
+    width: 70px;
+    height: 70px;
+    z-index: 1;
+}
+
+.navigation ul li a {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
+    font-weight: 500;
+}
+
+.navigation ul li a .icon {
+    position: relative;
+    display: block;
+    width: 25px;
+    height: 75px;
+    font-size: 1.5rem;
+    text-align: center;
+    transition: 0.5s;
+    color: var(--clr);
+}
+
+.navigation ul li.active a .icon {
+    transform: scale(1.2) translateX(37px);
+    transition: 0.3s;
+}
+
+.navigation ul li a .text {
+    position: absolute;
+    color: var(--clr);
+    font-weight: 400;
+    font-size: 0.9em;
+    letter-spacing: 0.05em;
+    transition: 0.5s;
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.navigation ul li.active a .text {
+    opacity: 1;
+    transform: translateX(-21px);
+}
+
+.indicator {
+    position: absolute;
+    top: 11.7%;
+    left: 60%;
+    width: 70px;
+    height: 70px;
+    background: #040d2b;
+    border-radius: 50%;
+    border: 6px solid var(--clr);
+    transition: 0.5s;
+}
+
+.indicator::before {
+    content: '';
+    position: absolute;
+    top: -28px;
+    left: 18%;
+    width: 25px;
+    height: 25px;
+    background: transparent;
+    border-bottom-right-radius: 20px;
+    box-shadow: 10px 0px 0 0 var(--clr);
+}
+
+.indicator::after {
+    content: '';
+    position: absolute;
+    bottom: -28px;
+    left: 18%;
+    width: 25px;
+    height: 25px;
+    background: transparent;
+    border-top-right-radius: 20px;
+    box-shadow: 10px 0px 0 0 var(--clr);
+}
+
+.navigation ul li:nth-child(1).active ~ .indicator {
+    transform: translateY(calc(70px * 0));
+}
+
+.navigation ul li:nth-child(2).active ~ .indicator {
+    transform: translateY(calc(70px * 1));
+}
+
+.navigation ul li:nth-child(3).active ~ .indicator {
+    transform: translateY(calc(70px * 2));
+}
+
+.navigation ul li:nth-child(4).active ~ .indicator {
+    transform: translateY(calc(70px * 3));
+}
+
+.navigation ul li:nth-child(5).active ~ .indicator {
+    transform: translateY(calc(70px * 4));
+}
+
+@media (max-width: 722px) {
+    .navigation {
+        position: fixed;
+        top: auto;
+        bottom: 0%;
+        left: 0;
+        width: 100%;
+        max-width: 480px;
+        height: 70px;
+        flex-direction: row;
+        border-radius: 5px;
+        z-index: 1000;
+    }
+
+    .navigation ul {
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .navigation ul li {
+        width: 20%;
+    }
+
+    .navigation ul li.active a .icon {
+        transform: scale(1.2) translateY(-32px);
+    }
+
+    .navigation ul li a .text {
+        transform: translateY(20px);
+    }
+
+    .navigation ul li.active a .text {
+        opacity: 1;
+        transform: translateY(10px);
+    }
+
+    .indicator {
+        top: -50%;
+        left: -.2%;
+        width: 20%;
+        height: 70px;
+        
+        border: none;
+        
+    }
+
+    .indicator::before {
+        display: none;
+    }
+
+    .indicator::after {
+        display: none;
+    }
+
+    .navigation ul li:nth-child(1).active ~ .indicator {
+        transform: translateX(calc(100% * 0));
+    }
+
+    .navigation ul li:nth-child(2).active ~ .indicator {
+        transform: translateX(calc(100% * 1));
+    }
+
+    .navigation ul li:nth-child(3).active ~ .indicator {
+        transform: translateX(calc(100% * 2));
+    }
+
+    .navigation ul li:nth-child(4).active ~ .indicator {
+        transform: translateX(calc(100% * 3));
+    }
+
+    .navigation ul li:nth-child(5).active ~ .indicator {
+        transform: translateX(calc(100% * 4)); }
+}
+
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+           <!-- navigation bar -->
+  <div class="sidebar">
+    <div class="navigation">
+        <ul>
+          <li class="list">
+            <a href="index.html" class="nav-item" aria-label="Home">
+              <svg
+                class="icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              <span class="text">Home</span>
+            </a>
+          </li>
+          <li class="list">
+            <a href="#" class="nav-item" aria-label="Friends">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  d="M402 168c-2.93 40.67-33.1 72-66 72s-63.12-31.32-66-72c-3-42.31 26.37-72 66-72s69 30.46 66 72z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="32"
+                />
+                <path
+                  d="M336 304c-65.17 0-127.84 32.37-143.54 95.41-2.08 8.34 3.15 16.59 11.72 16.59h263.65c8.57 0 13.77-8.25 11.72-16.59C463.85 335.36 401.18 304 336 304z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-miterlimit="10"
+                  stroke-width="32"
+                />
+                <path
+                  d="M200 185.94c-2.34 32.48-26.72 58.06-53 58.06s-50.7-25.57-53-58.06C91.61 152.15 115.34 128 147 128s55.39 24.77 53 57.94z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="32"
+                />
+                <path
+                  d="M206 306c-18.05-8.27-37.93-11.45-59-11.45-52 0-102.1 25.85-114.65 76.2-1.65 6.66 2.53 13.25 9.37 13.25H154"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-miterlimit="10"
+                  stroke-width="40"
+                />
+              </svg>
+              <span class="text">Friends</span>
+            </a>
+          </li>
+          <li class="list">
+            <a href="#" class="nav-item" aria-label="Post">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-miterlimit="10"
+                  stroke-width="40"
+                />
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="32"
+                  d="M256 176v160M336 256H176"
+                />
+              </svg>
+              <span class="text">Post</span>
+            </a>
+          </li>
+          <li class="list">
+            <a href="#" class="nav-item" aria-label="Chat">
+              <svg
+              class="icon"
+                xmlns="http://www.w3.org/2000/svg"
+                height="24px"
+                viewBox="0 -960 960 960"
+                width="24px"
+                fill="var(--clr)"
+              >
+                <path
+                  d="M880-80 720-240H320q-33 0-56.5-23.5T240-320v-40h440q33 0 56.5-23.5T760-440v-280h40q33 0 56.5 23.5T880-640v560ZM160-473l47-47h393v-280H160v327ZM80-280v-520q0-33 23.5-56.5T160-880h440q33 0 56.5 23.5T680-800v280q0 33-23.5 56.5T600-440H240L80-280Zm80-240v-280 280Z"
+                />
+              </svg>
+              <span class="text">Chat</span>
+            </a>
+          </li>
+          <li class="list active">
+            <a href="dash.html" class="nav-item" aria-label="Profile">
+              <svg
+                class="icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span  class="text">Profile</span>
+            </a>
+          </li>
+          <div class="indicator">
+            <div class="arrow"></div>
+            <div class="arrow1"></div>
+          </div>
+        </ul>
+      </div>
+    </div>
+        <main class="content">
+            
+            <div class="dashboard-content">
+                <section id="profile-overview" class="profile-overview">
+                    <div class="profile-header">
+                        <img src="https://via.placeholder.com/1000x300" alt="Banner" class="profile-banner" id="bannerImage">
+                        <label for="banner-upload" class="image-upload">
+                            Change Banner
+                            <input id="banner-upload" type="file" accept="image/*" style="display: none;">
+                        </label>
+                        <img src="https://via.placeholder.com/150" alt="Profile Picture" class="profile-picture" id="profileImage">
+                        <label for="profile-upload" class="image-upload">
+                            Change Picture
+                            <input id="profile-upload" type="file" accept="image/*" style="display: none;">
+                        </label>
+                        <h1 id="userName">John Doe</h1>
+                        <p id="userInfo">@johndoe • Web Developer • New York, USA</p>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="stat-value">1,234</span>
+                            <span class="stat-label">Posts</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">5,678</span>
+                            <span class="stat-label">Followers</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-value">901</span>
+                            <span class="stat-label">Following</span>
+                        </div>
+                    </div>
+                    <div class="quick-actions">
+                        <button class="btn" id="editProfileBtn">Edit Profile</button>
+                        <button class="btn" id="viewInsightsBtn">View Insights</button>
+                    </div>
+                </section>
+                <section id="engagement-insights" class="collapsible">
+                    <h2>
+                        Engagement Insights
+                        <button class="toggle-btn" aria-expanded="false">▼</button>
+                    </h2>
+                    <div class="collapsible-content">
+                        <canvas id="engagementChart"></canvas>
+                    </div>
+                </section>
+                <section id="recent-posts">
+                    <h2>Recent Posts</h2>
+                    <div class="post-grid">
+                        <div class="post">
+                            <img src="https://via.placeholder.com/300" alt="Post 1">
+                            <div class="post-info">
+                                <h3>My Latest Project</h3>
+                                <p>Check out my new web app!</p>
+                                <div class="post-stats">
+                                    <span><i class="icon-heart"></i> 123</span>
+                                    <span><i class="icon-comment"></i> 45</span>
+                                    <span><i class="icon-share"></i> 67</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post">
+                            <img src="https://via.placeholder.com/300" alt="Post 2">
+                            <div class="post-info">
+                                <h3>Another Great Project</h3>
+                                <p>Just finished this amazing website!</p>
+                                <div class="post-stats">
+                                    <span><i class="icon-heart"></i> 89</span>
+                                    <span><i class="icon-comment"></i> 23</span>
+                                    <span><i class="icon-share"></i> 12</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+    <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    const bannerUpload = document.getElementById('banner-upload');
+    const profileUpload = document.getElementById('profile-upload');
+    const bannerImage = document.getElementById('bannerImage');
+    const profileImage = document.getElementById('profileImage');
+    const editProfileBtn = document.getElementById('editProfileBtn');
+    const userName = document.getElementById('userName');
+    const userInfo = document.getElementById('userInfo');
+    const viewInsightsBtn = document.getElementById('viewInsightsBtn');
+    const engagementInsights = document.getElementById('engagement-insights');
+    const toggleBtn = engagementInsights.querySelector('.toggle-btn');
+    const collapsibleContent = engagementInsights.querySelector('.collapsible-content');
+
+    function handleImageUpload(event, imgElement) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imgElement.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
+    bannerUpload.addEventListener('change', (e) => handleImageUpload(e, bannerImage));
+    profileUpload.addEventListener('change', (e) => handleImageUpload(e, profileImage));
+
+    let isEditing = false;
+
+    editProfileBtn.addEventListener('click', function() {
+        if (isEditing) {
+            // Save changes
+            this.textContent = 'Edit Profile';
+            userName.contentEditable = false;
+            userInfo.contentEditable = false;
+            // Here you would typically send the updated data to a server
+        } else {
+            // Enter edit mode
+            this.textContent = 'Save Profile';
+            userName.contentEditable = true;
+            userInfo.contentEditable = true;
+        }
+        isEditing = !isEditing;
+    });
+
+    function toggleInsights() {
+        const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+        toggleBtn.setAttribute('aria-expanded', !isExpanded);
+        collapsibleContent.classList.toggle('expanded');
+        if (!isExpanded) {
+            renderChart();
+        }
+    }
+
+    viewInsightsBtn.addEventListener('click', toggleInsights);
+    toggleBtn.addEventListener('click', toggleInsights);
+
+    function renderChart() {
+        const ctx = document.getElementById('engagementChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Mon', 'Tue', 'Wed',
+'Thu', 'Fri', 'Sat', 'Sun'],
+                datasets: [{
+                    label: 'Likes',
+                    data: [12, 19, 3, 5, 2, 3, 10],
+                    borderColor: 'rgb(255, 99, 132)',
+                    tension: 0.1
+                }, {
+                    label: 'Comments',
+                    data: [7, 11, 5, 8, 3, 7, 9],
+                    borderColor: 'rgb(54, 162, 235)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+});
+const list = document.querySelectorAll(".list");
+function activelink() {
+  list.forEach((item) => item.classList.remove("active"));
+  this.classList.add("active");
+}
+list.forEach((item) => item.addEventListener("click", activelink));
+
+
+    </script>
+</body>
+</html>
+
